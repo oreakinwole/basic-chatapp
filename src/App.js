@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BackMessage from "./components/BackMessage";
+import BaseModal from "./components/BaseModal";
 import ForeMessage from "./components/ForeMessage";
 
 const ChatRoomWrapper = styled.div`
@@ -29,20 +30,37 @@ const BottomWrapper = styled.div`
 //   hei
 // `
 
-const handleSendMsg = () => {};
+const handleSendMsg = (e) => {
+  e.preventDefault();
+};
+const handleEnterNewUsr = (e) => {
+  e.preventDefault();
+};
 
 function App() {
+  const [isShowNewUserDialog, setIsShowNewUserDialog] = useState(true);
   return (
-    <ChatRoomWrapper>
-      <BackMessage />
-      <ForeMessage/>
-      <BottomWrapper>
-        <form onSubmit={handleSendMsg}>
-          <input type="text" placeholder="Start typing" />
-          <button type="submit">Send</button>
+    <>
+      {" "}
+      <ChatRoomWrapper>
+        <BackMessage />
+        <ForeMessage />
+        <BottomWrapper>
+          <form onSubmit={handleSendMsg}>
+            <input type="text" placeholder="Start typing" />
+            <button type="submit">Send</button>
+          </form>
+        </BottomWrapper>
+      </ChatRoomWrapper>
+      <BaseModal isHidden={isShowNewUserDialog} setIsHidden={setIsShowNewUserDialog}>
+        <h5>Hi Welcome, please input your name,</h5>
+
+        <form onSubmit={handleEnterNewUsr}>
+          <input type="text" placeholder="Enter your Name" />
+          <button type="submit">Submit</button>
         </form>
-      </BottomWrapper>
-    </ChatRoomWrapper>
+      </BaseModal>
+    </>
   );
 }
 
