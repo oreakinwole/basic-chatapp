@@ -28,13 +28,13 @@ const ForeMessageWrapper = styled.section`
   }
 `;
 
-export default function ForeMessage({ userInitial }) {
+export default function ForeMessage({item}) {
   return (
     <ForeMessageWrapper>
-      <div className="user-message">Lorem Ipsum Dolor Sit amet</div>
+      <div className="user-message">{item.text}</div>
 
       <div className="user-avi">
-        <h3>{userInitial || "B"}</h3>
+        <h3>{item.from.name[0]}</h3>
       </div>
     </ForeMessageWrapper>
   );
