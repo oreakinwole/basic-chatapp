@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch /* useSelector */ } from "react-redux";
 import styled from "styled-components";
 import randomstring from "randomstring";
@@ -52,6 +52,7 @@ function App() {
     dispatch(registerNewUser(newUser));
 
     sessionStorage.setItem("@curTabUser", JSON.stringify(newUser));
+    setIsShowNewUserDialog(true);
   };
 
   const handleSendMsg = (e) => {
