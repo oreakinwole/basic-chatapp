@@ -8,7 +8,7 @@
 # testing
 /coverage
 
-# production
+# production    
 
 /build
 # misc
@@ -140,4 +140,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
+=======
 
+>>>>>>> b94439554485f6e34fe8a8e298ca33200b8a614a
