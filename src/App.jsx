@@ -90,7 +90,6 @@ function App() {
       {" "}
       {isUserDialogHidden && (
         <ChatRoomWrapper>
-          {/* <BackMessage /> */}
           {state.messageStack.length > 0 &&
             state.messageStack.map((item) =>
               JSON.parse(sessionStorage.getItem("@curTabUser")).id ===
