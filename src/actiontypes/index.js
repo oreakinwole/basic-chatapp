@@ -1,0 +1,5 @@
+export const REGISTER_NEW_USER = "REGISTER_NEW_USER";
+export const SYNC_NEW_USER =  "SYNC_NEW_USER"
+
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const FETCH_MESSAGES = "FETCH_MESSAGES";

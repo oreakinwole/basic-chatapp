@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch /* useSelector */ } from "react-redux";
 import styled from "styled-components";
+import randomstring from "randomstring";
 import BackMessage from "./components/BackMessage";
 import BaseModal from "./components/BaseModal";
 import ForeMessage from "./components/ForeMessage";
+import { registerNewUser, sendMessage } from "./actions";
 
 const ChatRoomWrapper = styled.div`
   height: 100vh;
@@ -26,19 +29,40 @@ const BottomWrapper = styled.div`
   align-items: center;
 `;
 
-// const TextInput = styled.input`
-//   hei
-// `
-
-const handleSendMsg = (e) => {
-  e.preventDefault();
-};
-const handleEnterNewUsr = (e) => {
-  e.preventDefault();
-};
-
 function App() {
+  // const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [isShowNewUserDialog, setIsShowNewUserDialog] = useState(true);
+  const [localState, setLocalState] = useState({
+    newUserName: "",
+    newChatMessage: "",
+  });
+
+  const handleChange = ({ target }) => {
+    setLocalState((prevS) => ({
+      ...prevS,
+      [target.name]: target.value,
+    }));
+  };
+
+  const handleEnterNewUsr = (e) => {
+    e.preventDefault();
+
+    const newUser = { name: e.target.value, id: randomstring.generate(9) };
+    dispatch(registerNewUser(newUser));
+
+    sessionStorage.setItem("@curTabUser", JSON.stringify(newUser));
+  };
+
+  const handleSendMsg = (e) => {
+    e.preventDefault();
+    dispatch(
+      sendMessage({
+        text: localState.newChatMessage,
+        from: JSON.parse(sessionStorage.getItem("@curTabUser")),
+      })
+    );
+  };
   return (
     <>
       {" "}
@@ -47,17 +71,36 @@ function App() {
         <ForeMessage />
         <BottomWrapper>
           <form onSubmit={handleSendMsg}>
-            <input type="text" placeholder="Start typing" />
-            <button type="submit">Send</button>
+            <input
+              type="text"
+              placeholder="Start typing"
+              name="newChatMessage"
+              onChange={handleChange}
+              value={localState.newChatMessage}
+            />
+            <button type="submit" disabled={!localState.newChatMessage}>
+              Send
+            </button>
           </form>
         </BottomWrapper>
       </ChatRoomWrapper>
-      <BaseModal isHidden={isShowNewUserDialog} setIsHidden={setIsShowNewUserDialog}>
+      <BaseModal
+        isHidden={isShowNewUserDialog}
+        setIsHidden={setIsShowNewUserDialog}
+      >
         <h5>Hi Welcome, please input your name,</h5>
 
         <form onSubmit={handleEnterNewUsr}>
-          <input type="text" placeholder="Enter your Name" />
-          <button type="submit">Submit</button>
+          <input
+            type="text"
+            name="newUserName"
+            placeholder="Enter your Name"
+            onChange={handleChange}
+            value={localState.newUserName}
+          />
+          <button type="submit" disabled={!localState.newUserName}>
+            Submit
+          </button>
         </form>
       </BaseModal>
     </>
